@@ -1,0 +1,6 @@
+com\study\mapper\user\DeptMapper.class
+com\study\entity\UserDeptEntity.class
+com\study\entity\UserEntity.class
+com\study\entity\DeptEntity.class
+com\study\entity\DeptUserEntity.class
+com\study\mapper\user\UserMapper.class

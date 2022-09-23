@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mapper.user.UserMapper">
+    <resultMap id="BaseResultMap" type="com.study.entity.UserEntity">
+        <id column="id" property="id"/>
+        <result column="user_name" property="user_name" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="gender" property="gender" jdbcType="CHAR"/>
+    </resultMap>
+
+    <resultMap id="UserDeptResultMap" type="com.study.entity.UserDeptEntity">
+        <id column="id" property="id"/>
+        <result column="user_name" property="user_name" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="gender" property="gender" jdbcType="CHAR"/>
+        <association property="deptEntity" column="deptEntity" javaType="com.study.entity.DeptEntity">
+            <id column="id" property="id"/>
+            <result column="dept_id" property="dept_id"/>
+            <result column="dept_name" property="dept_name"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id,`name`,age,gender
+    </sql>
+    <insert id="insertUserList">
+        INSERT INTO `user`(user_name,age,gender)
+        VALUES
+        <foreach collection="userList" item="item" separator=",">
+            (#{item.user_name},#{item.age},#{item.gender})
+        </foreach>
+    </insert>
+    <insert id="insertUser">
+        INSERT INTO `user`(user_name,age,gender)
+        VALUES (#{userEntity.user_name},#{userEntity.age},#{userEntity.gender})
+    </insert>
+    <select id="selectUserDeptList" resultMap="UserDeptResultMap">
+        SELECT *
+        FROM
+            user u
+        INNER JOIN dept d ON u.dept_id = d.dept_id
+        <where>
+            u.id IN
+            <foreach collection="idList" item="id" separator="," open="(" close=")">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+</mapper>

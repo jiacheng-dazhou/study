@@ -1,0 +1,63 @@
+server:
+  port: 8081
+
+mybatis-plus:
+  mapper-locations: classpath*:**/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    id-type: 0
+    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    field-strategy: 1
+    db-column-underline: true
+    refresh-mapper: false
+    db-config:
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+      update-strategy: not_null
+    configuration:
+      # 开启自动驼峰命名规则映射:DB的列名到Java属性驼峰命名的类似映射
+      map-underscore-to-camel-case: false
+      cache-enabled: false
+      jdbc-type-for-null: 'null'
+      # 将执行的sql打印出来,开发环境自己放开测试，但不要能提交
+      #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 10086.2b
+    database: 0
+    timeout: 60000
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/study?useUnicode=true&characterEnconding=utf-8&serverTimezone=UTC&useSSL=false
+
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DURL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      max-pool-prepared-statement-per-connection-size: 20
+      pool-prepared-statements: true
+      filter: stat,wall
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      use-global-data-source-stat: true
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
